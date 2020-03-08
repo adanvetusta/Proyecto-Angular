@@ -15,6 +15,7 @@ import { IncrementadorComponent } from '../components/incrementador/incrementado
 import { GracicoDonaComponent } from '../components/gracico-dona/gracico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { PromesasComponent } from './promesas/promesas.component';
         IncrementadorComponent,
         GracicoDonaComponent,
         AccountSettingsComponent,
-        PromesasComponent
+        PromesasComponent,
+        RxjsComponent
     ],
     exports: [
         DashboardComponent,
