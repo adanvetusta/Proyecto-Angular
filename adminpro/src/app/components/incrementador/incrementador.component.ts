@@ -19,7 +19,6 @@ export class IncrementadorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.progreso);
   }
 
   onChange(event: number) {

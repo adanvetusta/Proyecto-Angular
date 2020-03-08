@@ -17,11 +17,8 @@ export class SettingsService {
 
   cargarAjustes() {
     if (localStorage.getItem('ajustes')) {
-      console.log('Cargando del local storage...')
       this.ajustes = JSON.parse(localStorage.getItem('ajustes'));
       this.aplicarTema(this.ajustes.tema);
-    } else {
-      console.log('Cargando valores por defecto...');
     }
   }
 
@@ -34,7 +31,6 @@ export class SettingsService {
   }
 
   guardarAjustes() {
-    console.log('Guardado en el localStorage...');
     /*
     No hace falta importar el localStorage.
     JSON.stringify('') -->  Sólo guarda objetos de tipo String.
