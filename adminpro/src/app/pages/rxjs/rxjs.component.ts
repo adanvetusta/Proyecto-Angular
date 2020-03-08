@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { retry } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-rxjs',
@@ -10,10 +12,8 @@ import { retry } from 'rxjs/operators';
 export class RxjsComponent implements OnInit {
 
   constructor() {
-    this.regresaObservable().pipe(
-      // Como parámetro, el número de veces que queremos que se pruebe
-      retry(2)
-    ).subscribe(numero => console.log('subs', numero),
+    this.regresaObservable()
+    .subscribe(numero => console.log('subs', numero),
       error => console.error('Error', error),
       () => console.log('El observador terminó')
     );
@@ -23,22 +23,29 @@ export class RxjsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  regresaObservable(): Observable<number> {
+  regresaObservable(): Observable<any> {
     return new Observable( observer => {
       let contador = 0;
       const intervalo = setInterval( () => {
         contador += 1;
-        observer.next(contador);
+        const salida: NumeroValor = {
+          valor: contador
+        };
+        observer.next(salida);
         if (contador === 3) {
           clearInterval(intervalo);
           observer.complete();
         }
-        if (contador === 2) {
-        // clearInterval(intervalo);
-          observer.error('Error');
-        }
       }, 1000);
-    });
+    }).pipe(
+      // Aplicar una función a todos los elementos que se devuelvan.
+      map( (resp: NumeroValor) => {
+        return resp.valor + 1;
+      })
+    );
   }
+}
 
+interface NumeroValor {
+  valor: number;
 }
