@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 
 
@@ -38,10 +38,16 @@ export class RxjsComponent implements OnInit {
         }
       }, 1000);
     }).pipe(
-      // Aplicar una función a todos los elementos que se devuelvan.
+      // Aplicar una función a todos los elementos que se devuelvan
       map( (resp: NumeroValor) => {
         return resp.valor + 1;
-      })
+      }),
+      // Recibe dos argumentos: valor e index (número de veces que se ha llamado al filter)
+      filter( (valor, index) => {
+        // Números impares
+        return valor % 2 === 1;
+      }
+      )
     );
   }
 }
