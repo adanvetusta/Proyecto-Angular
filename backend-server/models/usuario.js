@@ -1,6 +1,12 @@
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 
 var Schema = mongoose.Schema;
+
+var rolesValidos = {
+    values: ['ADMIN_ROLE', 'USER_ROLE'],
+    message: '{VALUE} no es un rol válido o permitido'
+};
 
 // Definimos schema en BD.
 var usuarioSchema = new Schema({
@@ -24,9 +30,13 @@ var usuarioSchema = new Schema({
     role: {
         type: String,
         required: true,
-        default: 'USER_ROLE'
+        default: 'USER_ROLE',
+        enum: rolesValidos
     },
 });
+
+
+usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
 // Necesitamos exportarlo para usarlo fuera...
 module.exports = mongoose.model('Usuario', usuarioSchema);
