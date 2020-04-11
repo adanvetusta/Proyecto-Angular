@@ -1,7 +1,8 @@
 var express = require('express');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-var SEED = require('../config/config').SEED;
+
+var mdAutenticacion = require('../middelwares/autenticacion');
 
 var app = express();
 
@@ -29,30 +30,10 @@ app.get('/', (req, res, next) => {
 
 
 /**
- * Verificar token.
- * Todo lo de abajo depende de este middelware
- */
-app.use('/', (req, res, next) => {
-    var token = req.query.token;
-    jwt.verify(token, SEED, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({
-                ok: false,
-                mensaje: 'Token incorrecto',
-                errors: err
-            });
-        }
-        next();
-    });
-});
-
-
-/**
  * Crear un nuevo usuario
  */
-app.post('/', (req, res) => {
+app.post('/', mdAutenticacion.verificaToken, (req, res) => {
     var body = req.body;
-
     var usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
@@ -71,7 +52,8 @@ app.post('/', (req, res) => {
         }
         res.status(201).json({
             ok: true,
-            body: usuarioGuardado
+            usuario: usuarioGuardado,
+            usuarioToken: req.usuario
         });
     });
 });
@@ -80,7 +62,7 @@ app.post('/', (req, res) => {
 /**
  * Actualizar usuario (Valdría un patch)
  */
-app.put('/:id', (req, res) => {
+app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
     // Obtenemos el id
     var id = req.params.id;
     var body = req.body;
@@ -130,7 +112,7 @@ app.put('/:id', (req, res) => {
 /**
  * Borrar un usuario por el id
  */
-app.delete('/:id', (req, res) => {
+app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
     var id = req.params.id;
 
     Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
