@@ -1,5 +1,8 @@
 var express = require('express');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+var SEED = require('../config/config').SEED;
+
 var app = express();
 
 var Usuario = require('../models/usuario');
@@ -23,6 +26,26 @@ app.get('/', (req, res, next) => {
             });
         });
 });
+
+
+/**
+ * Verificar token.
+ * Todo lo de abajo depende de este middelware
+ */
+app.use('/', (req, res, next) => {
+    var token = req.query.token;
+    jwt.verify(token, SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                mensaje: 'Token incorrecto',
+                errors: err
+            });
+        }
+        next();
+    });
+});
+
 
 /**
  * Crear un nuevo usuario
