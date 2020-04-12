@@ -10,7 +10,13 @@ var Hospital = require('../models/hospital');
  * Obtener todos los hospitales
  */
 app.get('/', (req, res, next) => {
+
+    var desde = req.query.desde || 0;
+    desde = Number(desde);
+
     Hospital.find({}, 'nombre email img role')
+        .skip(desde)
+        .limit(5)
         // Especificamos qué tabla y qué campos queremos de la otra tabla
         .populate('usuario', 'nombre email')
         .exec(
@@ -22,9 +28,12 @@ app.get('/', (req, res, next) => {
                         errors: err
                     });
                 }
-                res.status(200).json({
-                    ok: true,
-                    hospitales
+                Hospital.count({}, (err, count) => {
+                    res.status(200).json({
+                        ok: true,
+                        hospitales,
+                        total: count
+                    });
                 });
             });
 });
