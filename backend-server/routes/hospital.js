@@ -10,20 +10,23 @@ var Hospital = require('../models/hospital');
  * Obtener todos los hospitales
  */
 app.get('/', (req, res, next) => {
-    Hospital.find({}, 'nombre email img role').exec(
-        (err, hospitales) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'Error cargando hospitales',
-                    errors: err
+    Hospital.find({}, 'nombre email img role')
+        // Especificamos qué tabla y qué campos queremos de la otra tabla
+        .populate('usuario', 'nombre email')
+        .exec(
+            (err, hospitales) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error cargando hospitales',
+                        errors: err
+                    });
+                }
+                res.status(200).json({
+                    ok: true,
+                    hospitales
                 });
-            }
-            res.status(200).json({
-                ok: true,
-                hospitales
             });
-        });
 });
 
 

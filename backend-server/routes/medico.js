@@ -10,20 +10,23 @@ var Medico = require('../models/medico');
  * Obtener todos los medicoes
  */
 app.get('/', (req, res, next) => {
-    Medico.find({}, 'nombre email img role').exec(
-        (err, medicos) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'Error cargando medicos',
-                    errors: err
+    Medico.find({})
+        .populate('usuario', 'nombre email')
+        .populate('hospital')
+        .exec(
+            (err, medicos) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error cargando medicos',
+                        errors: err
+                    });
+                }
+                res.status(200).json({
+                    ok: true,
+                    medicos: medicos
                 });
-            }
-            res.status(200).json({
-                ok: true,
-                medicos
             });
-        });
 });
 
 
