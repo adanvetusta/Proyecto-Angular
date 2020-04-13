@@ -5,6 +5,41 @@ var Hospital = require('../models/hospital');
 var Medico = require('../models/medico');
 var Usuario = require('../models/usuario');
 
+
+app.get('/coleccion/:tabla/:busqueda', (req, res) => {
+    var busqueda = req.params.busqueda;
+    var tabla = req.params.tabla;
+    var regex = new RegExp(busqueda, 'i');
+
+    var promesa;
+
+    switch (tabla) {
+        case 'usuarios':
+            promesa = buscarUsuarios(regex);
+            break;
+        case 'medicos':
+            promesa = buscarMedicos(regex);
+            break;
+        case 'hospitales':
+            promesa = buscarHospitales(regex);
+            break;
+        default:
+            return res.status(400).json({
+                ok: true,
+                mensaje: 'Los tipos de búsqueda sólo son usuarios, médicos y hospitales',
+                err: { message: 'Tipo de tabla/colección incorrecto' }
+            });
+    }
+    promesa.then(data => {
+        res.status(200).json({
+            ok: true,
+            [tabla]: data
+        });
+    })
+
+});
+
+
 app.get('/todo/:busqueda', (req, res, next) => {
     var busqueda = req.params.busqueda;
 
