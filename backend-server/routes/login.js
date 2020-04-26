@@ -5,6 +5,15 @@ var SEED = require('../config/config').SEED;
 var app = express();
 var Usuario = require('../models/usuario');
 
+
+// Google
+var CLIENT_ID = require('../config/config').CLIENT_ID;
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(CLIENT_ID);
+
+/**
+ * Autentificación normal
+ */
 app.post('/', (req, res) => {
     var body = req.body;
     Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
@@ -44,6 +53,48 @@ app.post('/', (req, res) => {
             token: token,
             id: usuarioDB._id
         });
+    });
+});
+
+
+/**
+ * Autentificación Google (Método POST recomendado)
+ */
+
+async function verify(token) {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    });
+    // Toda la información del usuario.
+    const payload = ticket.getPayload();
+    return {
+        nombre: payload.name,
+        google: true,
+        email: payload.email,
+        picture: payload.picture,
+        payload
+    }
+}
+
+app.post('/google', async(req, res) => {
+
+    var token = req.body.token;
+
+    // async porque es un await (promesa)
+    var googleUser = await verify(token)
+        .catch(e => {
+            return res.status(403).json({
+                ok: false,
+                mensaje: 'Token no válido'
+            });
+        });
+
+    return res.status(200).json({
+        ok: true,
+        googleUser: googleUser
     });
 });
 
