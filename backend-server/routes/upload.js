@@ -72,8 +72,18 @@ app.put('/:tipo/:id', (req, res, next) => {
 function subirPorTipo(tipo, id, nombreArchivo, res) {
     if (tipo === 'usuarios') {
         Usuario.findById(id, (err, usuario) => {
+
+            if (!usuario) {
+                return res.status(400).json({
+                    ok: true,
+                    mensaje: 'Usuario no existe',
+                    err: { message: 'Usuario no existe' }
+                });
+            }
+
             usuario.img = nombreArchivo;
             usuario.save((err, usuarioActualizado) => {
+                usuarioActualizado.password = '';
                 return res.status(200).json({
                     ok: true,
                     mensaje: 'Imagen de usuario subida/actualizada',
@@ -83,10 +93,45 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
         });
     }
     if (tipo === 'medicos') {
+        Medico.findById(id, (err, medico) => {
 
+
+            if (!medico) {
+                return res.status(400).json({
+                    ok: true,
+                    mensaje: 'Medico no existe',
+                    err: { message: 'Medico no existe' }
+                });
+            }
+
+            medico.img = nombreArchivo;
+            medico.save((err, medicoActualizado) => {
+                return res.status(200).json({
+                    ok: true,
+                    mensaje: 'Imagen de medico subida/actualizada',
+                    medico: medicoActualizado
+                });
+            })
+        });
     }
     if (tipo === 'hospitales') {
-
+        Hospital.findById(id, (err, hospital) => {
+            if (!hospital) {
+                return res.status(400).json({
+                    ok: true,
+                    mensaje: 'Hospital no existe',
+                    err: { message: 'Hospital no existe' }
+                });
+            }
+            hospital.img = nombreArchivo;
+            hospital.save((err, hospitalActualizado) => {
+                return res.status(200).json({
+                    ok: true,
+                    mensaje: 'Imagen de hospital subida/actualizada',
+                    medico: hospitalActualizado
+                });
+            })
+        });
     }
 }
 
