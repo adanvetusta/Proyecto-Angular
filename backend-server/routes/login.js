@@ -92,9 +92,48 @@ app.post('/google', async(req, res) => {
             });
         });
 
-    return res.status(200).json({
-        ok: true,
-        googleUser: googleUser
+    Usuario.findOne({ email: googleUser.email }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al buscar usuario',
+                errors: err
+            });
+        } else if (usuarioDB) {
+            if (!usuarioDB.google) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'Debe de usar su autenticación normal',
+                    errors: err
+                });
+            } else {
+                var token = jwt.sign({ usuario: usuarioDB }, SEED, { expiresIn: 14400 }) //expira en 4 horas
+                return res.status(200).json({
+                    ok: true,
+                    mensaje: 'login post correcto',
+                    usuario: usuarioDB,
+                    token: token,
+                    id: usuarioDB._id
+                });
+            }
+        } else { // Si el usuario no existe, hay que crearlo
+            var usuario = new Usuario();
+            usuario.nombre = googleUser.nombre;
+            usuario.email = googleUser.email;
+            usuario.img = googleUser.img;
+            usuario.google = true;
+            usuario.password = '_';
+            usuario.save((err, usuarioDB) => {
+                var token = jwt.sign({ usuario: usuarioDB }, SEED, { expiresIn: 14400 }) //expira en 4 horas
+                return res.status(200).json({
+                    ok: true,
+                    mensaje: 'login post correcto',
+                    usuario: usuarioDB,
+                    token: token,
+                    id: usuarioDB._id
+                });
+            });
+        }
     });
 });
 
