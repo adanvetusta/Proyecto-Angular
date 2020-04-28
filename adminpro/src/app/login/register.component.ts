@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/service.index';
 import { Usuario } from '../models/usuario.model';
+import { Router } from '@angular/router';
 
 
 declare function init_plugins();
@@ -15,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   forma: FormGroup;
 
-  constructor(public _usuarioService: UsuarioService) { }
+  constructor(public _usuarioService: UsuarioService, public router: Router) { }
 
   sonIguales(campo1: string, campo2: string) {
     return (group: FormGroup) => {
@@ -67,8 +68,6 @@ export class RegisterComponent implements OnInit {
       this.forma.value.correo,
       this.forma.value.password
     );
-    this._usuarioService.crearUsuario(usuario).subscribe(res => {
-      console.log(res);
-    });
+    this._usuarioService.crearUsuario(usuario).subscribe(res => this.router.navigate(['login']));
   }
 }
