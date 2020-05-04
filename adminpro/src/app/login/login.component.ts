@@ -13,12 +13,15 @@ declare function init_plugins();
 })
 export class LoginComponent implements OnInit {
 
+  email: string;
   recuerdame: boolean = false;
 
   constructor(public router: Router, public _usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
     init_plugins();
+    this.email = localStorage.getItem('email') || '';
+    this.recuerdame = localStorage.getItem('email').length > 0;
   }
 
 
@@ -29,7 +32,7 @@ export class LoginComponent implements OnInit {
     const usuario = new Usuario('adi', forma.value.email, forma.value.password);
     this._usuarioService.login(usuario, forma.value.recuerdame).subscribe(
       res => {
-        console.log(res);
+        this.router.navigate(['/dashboard']);
       }
     );
   }
