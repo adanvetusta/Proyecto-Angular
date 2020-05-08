@@ -130,7 +130,7 @@ app.post('/google', async(req, res) => {
                     mensaje: 'login post correcto',
                     usuario: usuarioDB,
                     token: token,
-                    id: usuarioDB._id
+                    //id: usuarioDB._id
                 });
             });
         }
