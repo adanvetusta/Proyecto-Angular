@@ -8,8 +8,7 @@ import { UsuarioService } from '../usuario/usuario.service';
 })
 export class LoginGuardGuard implements CanActivate {
 
-  constructor(public _usuarioService: UsuarioService,
-    public router: Router) {}
+  constructor(public _usuarioService: UsuarioService, public router: Router) {}
 
   canActivate(): boolean {
     if (this._usuarioService.isLogged()) {
