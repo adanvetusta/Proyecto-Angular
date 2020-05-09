@@ -120,7 +120,7 @@ app.post('/google', async(req, res) => {
             var usuario = new Usuario();
             usuario.nombre = googleUser.nombre;
             usuario.email = googleUser.email;
-            usuario.img = googleUser.img;
+            usuario.img = googleUser.picture;
             usuario.google = true;
             usuario.password = '_';
             usuario.save((err, usuarioDB) => {
@@ -129,8 +129,8 @@ app.post('/google', async(req, res) => {
                     ok: true,
                     mensaje: 'login post correcto',
                     usuario: usuarioDB,
-                    token: token,
-                    //id: usuarioDB._id
+                    token: token
+                        //id: usuarioDB._id
                 });
             });
         }
