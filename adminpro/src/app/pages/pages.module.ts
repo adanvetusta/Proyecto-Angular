@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 // ng2-charts
 import { ChartsModule } from 'ng2-charts';
 
+// Pipe module
+import { PipesModule } from '../pipes/pipes.module';
+
 // temporal
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { GracicoDonaComponent } from '../components/gracico-dona/gracico-dona.component';
@@ -39,9 +42,9 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 
-export class PagesModule {
-}
+export class PagesModule {}
