@@ -14,7 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
 
 //Servicios
-import { ServiceModule } from './services/service.module';
+import { ServiceModule } from './services/upload-file/service.module';
 
 //Temporal
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
