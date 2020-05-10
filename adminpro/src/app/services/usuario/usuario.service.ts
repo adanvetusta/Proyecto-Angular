@@ -36,8 +36,9 @@ export class UsuarioService {
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
-
+    console.log('USUARIO BACK', usuario);
     this.usuario = usuario;
+    console.log('USUARIO SAVED', this.usuario);
     this.token = token;
   }
 
@@ -84,5 +85,10 @@ export class UsuarioService {
           }
         )
       );
+  }
+
+  actualizarUsuario(usuario: Usuario) {
+    const url = URL_SERVICE + '/usuario/' + usuario._id + '/?token=' + this.token;
+    return this.http.put(url, usuario);
   }
 }
