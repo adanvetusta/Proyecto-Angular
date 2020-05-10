@@ -20,9 +20,10 @@ export class ProfileComponent implements OnInit {
   }
 
   save(usuario: Usuario) {
-    console.log(this.usuario);
     this.usuario.nombre = usuario.nombre;
-    this.usuario.email = usuario.email;
+    if (!this.usuario.google) {
+      this.usuario.email = usuario.email;
+    }
     this._usuarioService.actualizarUsuario(this.usuario).subscribe(res => {
       console.log(res);
     });

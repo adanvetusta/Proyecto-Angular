@@ -89,6 +89,11 @@ export class UsuarioService {
 
   actualizarUsuario(usuario: Usuario) {
     const url = URL_SERVICE + '/usuario/' + usuario._id + '/?token=' + this.token;
-    return this.http.put(url, usuario);
+    return this.http.put(url, usuario).pipe(
+      map((res: any) => {
+        this.guardarStorage(res.usuario._id, this.token, res.usuario);
+        return true;
+      })
+    );
   }
 }
