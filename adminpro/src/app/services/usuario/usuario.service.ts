@@ -100,8 +100,9 @@ export class UsuarioService {
 
   changePicture(file: File, id: string) {
     this._uploadFileService.uploadFile(file, 'usuarios', id)
-      .then(res => {
-        console.log(res);
+      .then((res: any) => {
+        this.usuario.img = res.usuario.img;
+        this.guardarStorage(id, this.token, this.usuario);
       }).catch(res => {
         console.log(res);
       });
