@@ -13,6 +13,8 @@ export class ProfileComponent implements OnInit {
 
   picture: File;
 
+  tempPicture: any;
+
   constructor(public _usuarioService: UsuarioService) {
     this.usuario = this._usuarioService.usuario;
     console.log('Usuario constructor', this.usuario);
@@ -33,10 +35,20 @@ export class ProfileComponent implements OnInit {
 
   selectPicture(file: File) {
     if (!file) {
-      this.picture = null
+      this.picture = null;
+      return;
+    }
+
+    if (file.type.indexOf('image') < 0) {
+      console.log("no es una imagen");
       return;
     }
     this.picture = file;
+
+    // JS puro
+    const reader = new FileReader();
+    const urlTemp = reader.readAsDataURL(file);
+    reader.onloadend = () => this.tempPicture = reader.result;
   }
 
   changePicture() {

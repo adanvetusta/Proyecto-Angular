@@ -6,6 +6,7 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 import { PAGES_ROUTES } from './pages.routes';
 import { FormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 // ng2-charts
 import { ChartsModule } from 'ng2-charts';
@@ -41,6 +42,7 @@ import { ProfileComponent } from './profile/profile.component';
         PagesComponent
     ],
     imports: [
+        CommonModule,
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
