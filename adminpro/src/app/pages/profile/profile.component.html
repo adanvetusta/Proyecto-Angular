@@ -32,9 +32,9 @@
                 <h4 class="card-title">Fotografía del usuario</h4>
                 <h6 class="card-subtitle">nombre usuario</h6>
                 <img src="">
-                <input type="file">
+                <input (change)="selectPicture($event.target.files[0])" type="file">
                 <br><br>
-                <button type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">
+                <button (click)="changePicture()" [disabled]="!picture" type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">
                     <i class="fa fa-save"></i>
                     Save picture</button>
             </div>

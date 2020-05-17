@@ -12,7 +12,6 @@ export class UploadFileService {
    * Cualquier archivo (JS puro)
    */
   uploadFile(file: File, tipo: string, id: string) {
-
     return new Promise ( (resolve, reject) => {
       const formData = new FormData();
       const xhr = new XMLHttpRequest();
@@ -23,7 +22,7 @@ export class UploadFileService {
             console.log('Subida Ok');
             resolve(xhr.response);
           } else {
-            console.log('Falló la subida');
+            console.log('Falló la subida', xhr.status);
             reject(xhr.response);
           }
         }

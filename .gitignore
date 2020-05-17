@@ -1,3 +1,6 @@
 
 *.jpg
 google-signin-demo/node_modules/.bin/atob
+backend-server/.idea/vcs.xml
+backend-server/.idea/modules.xml
+backend-server/.idea/misc.xml

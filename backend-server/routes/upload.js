@@ -70,6 +70,7 @@ app.put('/:tipo/:id', (req, res, next) => {
 
 
 function subirPorTipo(tipo, id, nombreArchivo, res) {
+    console.log(tipo, nombreArchivo);
     if (tipo === 'usuarios') {
         Usuario.findById(id, (err, usuario) => {
 
@@ -80,7 +81,6 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                     err: { message: 'Usuario no existe' }
                 });
             }
-
             usuario.img = nombreArchivo;
             usuario.save((err, usuarioActualizado) => {
                 usuarioActualizado.password = '';
@@ -94,8 +94,6 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
     }
     if (tipo === 'medicos') {
         Medico.findById(id, (err, medico) => {
-
-
             if (!medico) {
                 return res.status(400).json({
                     ok: true,

@@ -5,6 +5,7 @@ import { URL_SERVICE } from '../../config/config';
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Router } from '@angular/router';
+import { UploadFileService } from '../service.index';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UsuarioService {
   usuario: Usuario;
   token: string;
 
-  constructor(public http: HttpClient, public router: Router) {
+  constructor(public http: HttpClient, public router: Router, public _uploadFileService: UploadFileService) {
     this.cargarStorage();
   }
 
@@ -95,5 +96,14 @@ export class UsuarioService {
         return true;
       })
     );
+  }
+
+  changePicture(file: File, id: string) {
+    this._uploadFileService.uploadFile(file, 'usuarios', id)
+      .then(res => {
+        console.log(res);
+      }).catch(res => {
+        console.log(res);
+      });
   }
 }

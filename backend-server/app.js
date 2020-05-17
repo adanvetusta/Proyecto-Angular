@@ -28,8 +28,8 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) =
 
 // Server index config (desplegar las imágenes: cualquier persona puede ver las imágenes que sube)
 var serveIndex = require('serve-index');
-app.use(express.static(__dirname + '/'))
-app.use('/upload', serveIndex(__dirname + '/upload'));
+//app.use(express.static(__dirname + '/'));
+//app.use('/upload', serveIndex(__dirname + '/upload'));
 
 
 // Importar rutas
