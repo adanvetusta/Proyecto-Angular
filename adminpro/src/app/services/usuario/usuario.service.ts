@@ -120,4 +120,9 @@ export class UsuarioService {
       )
     );
   }
+
+  borrarUsuario(id) {
+    const url = URL_SERVICE + '/usuario/' + id + '/?token=' + this.token;
+    return this.http.delete(url);
+  }
 }

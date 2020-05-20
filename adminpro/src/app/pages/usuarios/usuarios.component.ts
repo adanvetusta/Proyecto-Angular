@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Usuario} from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario/usuario.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-usuarios',
@@ -23,7 +25,6 @@ export class UsuariosComponent implements OnInit {
 
   cargarUsuarios() {
     this.cargando = true;
-    console.log("this.desde", this.desde);
     this._usuarioService.cargarUsuarios(this.desde).subscribe((res: any) => {
       console.log(res);
       this.usuarios = res.usuarios;
@@ -35,7 +36,6 @@ export class UsuariosComponent implements OnInit {
   cambiarDesde(valor: number) {
     const desde = this.desde + valor;
     console.log(desde);
-    debugger;
     if (desde >= this.total) {
       return;
     }
@@ -59,5 +59,38 @@ export class UsuariosComponent implements OnInit {
         this.cargando = false;
       }
     );
+  }
+
+  borrarUsuario(usuario: Usuario) {
+    if (this._usuarioService.usuario._id === usuario._id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Un usuario no se puede borrar a sí mismo',
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: '¿Estás seguro de eliminar al usuario ' + usuario.nombre + '?',
+      text: 'No podrás revertir este cambio',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, estoy seguro'
+    }).then((result) => {
+      if (result.value) {
+        this._usuarioService.borrarUsuario(usuario._id).subscribe(res => {
+          this.cargarUsuarios();
+          Swal.fire(
+            'Borrado',
+            'El usuario ' + usuario.nombre + ' ha sido borrado correctamente',
+            'success'
+          );
+        });
+      }
+    });
+
   }
 }
