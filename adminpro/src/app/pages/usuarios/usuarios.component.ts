@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Usuario} from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import Swal from 'sweetalert2';
+import {ModalUploadService} from '../../components/modal-upload/modal-upload.service';
 
 
 @Component({
@@ -16,11 +17,18 @@ export class UsuariosComponent implements OnInit {
   total: number;
   cargando: boolean = true;
 
-  constructor(public _usuarioService: UsuarioService) {
+  constructor(public _usuarioService: UsuarioService, public _modalUploadService: ModalUploadService) {
   }
 
   ngOnInit(): void {
     this.cargarUsuarios();
+    this._modalUploadService.notificacion.subscribe(res => {
+      this.cargarUsuarios();
+    });
+  }
+
+  mostrarModal(id: string) {
+    this._modalUploadService.mostrarModal('usuarios', id);
   }
 
   cargarUsuarios() {
