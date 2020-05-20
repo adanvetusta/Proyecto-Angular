@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Router } from '@angular/router';
 import { UploadFileService } from '../service.index';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -92,7 +93,9 @@ export class UsuarioService {
     const url = URL_SERVICE + '/usuario/' + usuario._id + '/?token=' + this.token;
     return this.http.put(url, usuario).pipe(
       map((res: any) => {
-        this.guardarStorage(res.usuario._id, this.token, res.usuario);
+        if (usuario._id === this.usuario._id) {
+          this.guardarStorage(res.usuario._id, this.token, res.usuario);
+        }
         return true;
       })
     );

@@ -70,7 +70,6 @@ export class UsuariosComponent implements OnInit {
       });
       return;
     }
-
     Swal.fire({
       title: '¿Estás seguro de eliminar al usuario ' + usuario.nombre + '?',
       text: 'No podrás revertir este cambio',
@@ -91,6 +90,15 @@ export class UsuariosComponent implements OnInit {
         });
       }
     });
+  }
 
+  guardarUsuario(usuario: Usuario) {
+    this._usuarioService.actualizarUsuario(usuario).subscribe(res => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Operación completada',
+        text: 'Usuario actualizado con éxito',
+      });
+    });
   }
 }
