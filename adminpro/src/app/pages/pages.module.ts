@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PAGES_ROUTES } from './pages.routes';
 import { FormsModule } from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {ModalUploadComponent} from '../components/modal-upload/modal-upload.component';
 
 // ng2-charts
 import { ChartsModule } from 'ng2-charts';
@@ -35,7 +36,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
         PromesasComponent,
         RxjsComponent,
         ProfileComponent,
-        UsuariosComponent
+        UsuariosComponent,
+        ModalUploadComponent
     ],
     exports: [
         DashboardComponent,
