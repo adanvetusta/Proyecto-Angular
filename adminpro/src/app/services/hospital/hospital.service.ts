@@ -44,7 +44,9 @@ export class HospitalService {
       const url = URL_SERVICE + '/hospital?token=' + this._usuarioService.token;
       return this.http.post(url, {nombre}).pipe(
         map(
-          (res: any) =>  res.hospital
+          (res: any) =>  {
+            return res.hospital;
+          }
         )
       );
    }
