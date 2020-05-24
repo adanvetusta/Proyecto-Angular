@@ -35,6 +35,7 @@ var usuarioSchema = new Schema({
     },
     google: {
         type: Boolean,
+        required: true,
         default: false
     }
 });
