@@ -6,7 +6,7 @@ export class Medico {
         public nombre?: string,
         public img?: string,
         public usuario?: string,
-        public hospital?: Hospital,
+        public hospital?: string,
         public _id?: string
     ) { }
 }
