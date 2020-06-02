@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
               <label>Hospital</label>
-              <select [(ngModel)]="medico.hospital" name="hospital" class="form-control" required>
+              <select (change)="cambioHospital($event.target.value)" [(ngModel)]="medico.hospital" name="hospital" class="form-control" required>
                 <option value=""> Seleccione Hospital </option>
                 <option *ngFor="let hospital of hospitales" [value]="hospital._id">{{hospital.nombre}}</option>
               </select>
@@ -30,14 +30,13 @@
   <div class="col-md-3">
     <div class="card card-body">
     <h4 class="box-title m-b-o">Hospital</h4>
-    <img src="" alt="">
+    <img [src]="hospital.img | imagen : 'hospital'" class="rounded img-fluid">
     </div>
   </div>
-
-  <div class="col-md-3">
+  <div class="col-md-3" *ngIf="medico._id">
     <div class="card card-body">
     <h4 class="box-title m-b-o">Fotografía</h4>
-    <img src="" alt="">
+    <img [src]="medico.img | imagen: 'medico'" class="rounded img-fluid">
   </div>
   </div>
 </div>
