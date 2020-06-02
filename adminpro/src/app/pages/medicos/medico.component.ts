@@ -30,7 +30,7 @@ export class MedicoComponent implements OnInit {
       }
     });
     this._modalUploadService.notificacion.subscribe(res => {
-      this.medico.img = res.medico.img;
+        this.medico.img = res.medico.img;
     });
   }
 
@@ -50,7 +50,7 @@ export class MedicoComponent implements OnInit {
       return;
     }
     this._medicoService.guardarMedico(this.medico).subscribe(medico => {
-      Swal.fire('Médico creado', 'Operación realizada correctamente', 'success');
+      Swal.fire('OK.', 'Operación realizada correctamente', 'success');
       this.medico._id = medico._id;
       this.router.navigate(['/medico', medico._id]);
     });

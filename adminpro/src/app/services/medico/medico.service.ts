@@ -45,14 +45,27 @@ export class MedicoService {
   }
 
   guardarMedico(medico: Medico) {
-    const url = URL_SERVICE + '/medico?token=' + this._usuarioService.token;
-    return this.http.post(url, medico).pipe(
-      map(
-        (res: any) => {
+
+    if (medico._id) {
+      // Actualizando
+      const url = URL_SERVICE + '/medico/' + medico._id + '?token=' + this._usuarioService.token;;
+      return this.http.put(url, medico).pipe(
+        map((res: any) => {
           return res.medico;
-        }
-      )
-    );
+        })
+      );
+
+    } else {
+      // Creando
+      const url = URL_SERVICE + '/medico?token=' + this._usuarioService.token;
+      return this.http.post(url, medico).pipe(
+        map(
+          (res: any) => {
+            return res.medico;
+          }
+        )
+      );
+    }
   }
 
   cargarMedico(id: string) {

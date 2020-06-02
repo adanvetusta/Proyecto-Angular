@@ -1,7 +1,7 @@
 <div class="row animated fadeIn">
   <div class="col-md-6">
     <div class="card card-body">
-      <h3 class="box-title m-b-0">Médico: NOMBRE MÉDICO</h3>
+      <h3 class="box-title m-b-0">Médico: {{medico.nombre}}</h3>
       <div class="row">
         <div class="col-sm-12 col-xs-12">
           <form ngNativeValidate #f="ngForm" (ngSubmit)="guardarMedico(f)">
