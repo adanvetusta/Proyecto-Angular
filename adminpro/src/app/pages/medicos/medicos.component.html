@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <input #input (keyup)="buscarMedico(input.value)" type="text" class="form-control" placeholder="Buscar médico">
+        <input #input  type="text" class="form-control" placeholder="Buscar médico" (keyup)="buscarMedico(input.value)">
       </div>
     </div>
   </div>
@@ -14,7 +14,7 @@
       <div class="card-body">
 
         <div class="text-right">
-          <button (click)="crearMedico()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
+          <button [routerLink]="['/medico', 'nuevo']" type="button" class="btn waves-effect waves-light btn-rounded btn-primary"> <!-- (click)="crearMedico()"> -->
             <i class="fa fa-plus"></i> Crear médico
           </button>
         </div>
@@ -42,8 +42,8 @@
                 {{ medico?.hospital?.nombre }}
               </td>
               <td>
-                <button class="btn btn-primary" (click)="editarMedico(medico)">
-                  <i class="fa fa-save"></i>
+                <button [routerLink]="['/medico', medico._id]" class="btn btn-primary"> <!-- (click)="editarMedico(medico)">-->
+                  <i class="fa fa-edit"></i>
                 </button>
                 <button class="btn btn-danger" (click)="borrarMedico(medico)">
                   <i class="fa fa-trash-o"></i>
