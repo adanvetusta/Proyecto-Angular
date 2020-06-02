@@ -4,15 +4,16 @@
       <h3 class="box-title m-b-0">Médico: NOMBRE MÉDICO</h3>
       <div class="row">
         <div class="col-sm-12 col-xs-12">
-          <form ngNativeValidate > <!--(ngSubmit)="guardarMedico()">-->
+          <form ngNativeValidate #f="ngForm" (ngSubmit)="guardarMedico(f)">
             <div class="form-group">
               <label>Nombre del médico</label>
-              <input type="text" class="form-control"  placeholder="Nombre del médico" required>
+              <input [(ngModel)]="medico.nombre" name="nombre" type="text" class="form-control"  placeholder="Nombre del médico" required>
             </div>
             <div class="form-group">
               <label>Hospital</label>
-              <select name="" class="form-control" required>
+              <select [(ngModel)]="medico.hospital" name="hospital" class="form-control" required>
                 <option value=""> Seleccione Hospital </option>
+                <option *ngFor="let hospital of hospitales" [value]="hospital._id">{{hospital.nombre}}</option>
               </select>
             </div>
             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">

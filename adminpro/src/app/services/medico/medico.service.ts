@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {URL_SERVICE} from '../../config/config';
 import {map} from 'rxjs/operators';
 import {UsuarioService} from '../usuario/usuario.service';
+import {Medico} from '../../models/medico.model';
+import {URL} from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +42,16 @@ export class MedicoService {
   borrarMedico(id) {
     const url = URL_SERVICE + '/medico/' + id + '/?token=' + this._usuarioService.token;
     return this.http.delete(url);
+  }
+
+  guardarMedico(medico: Medico) {
+    const url = URL_SERVICE + '/medico?token=' + this._usuarioService.token;
+    return this.http.post(url, medico).pipe(
+      map(
+        (res: any) => {
+          return res.medico;
+        }
+      )
+    );
   }
 }
