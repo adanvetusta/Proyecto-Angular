@@ -15,6 +15,7 @@ export class UsuarioService {
 
   usuario: Usuario;
   token: string;
+  menu: any[] = [];
 
   constructor(public http: HttpClient, public router: Router, public _uploadFileService: UploadFileService) {
     this.cargarStorage();
@@ -28,27 +29,29 @@ export class UsuarioService {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.usuario = null;
+      this.menu = null;
     }
   }
 
-  guardarStorage(id: string, token: string, usuario: Usuario) {
+  guardarStorage(id: string, token: string, usuario: Usuario, menu: any) {
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
-    console.log('USUARIO BACK', usuario);
+    localStorage.setItem('menu', JSON.stringify(menu));
     this.usuario = usuario;
-    console.log('USUARIO SAVED', this.usuario);
     this.token = token;
+    this.menu = menu;
   }
 
   loginGoogle(token: string) {
     const url = URL_SERVICE + '/login/google';
     return this.http.post(url, { token }).pipe(
       map((res: any) => {
-        this.guardarStorage(res.id, res.token, res.usuario);
+        this.guardarStorage(res.id, res.token, res.usuario, res.menu);
         return true;
       })
     );
@@ -63,7 +66,7 @@ export class UsuarioService {
     const url = URL_SERVICE + '/login';
     return this.http.post(url, usuario).pipe(
       map((res: any) => {
-        this.guardarStorage(res.id, res.token, res.usuario);
+        this.guardarStorage(res.id, res.token, res.usuario, res.menu);
         return true;
       })
     );
@@ -74,6 +77,7 @@ export class UsuarioService {
     this.token = null;
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('menu');
     this.router.navigate(['/login']);
   }
 
@@ -94,7 +98,7 @@ export class UsuarioService {
     return this.http.put(url, usuario).pipe(
       map((res: any) => {
         if (usuario._id === this.usuario._id) {
-          this.guardarStorage(res.usuario._id, this.token, res.usuario);
+          this.guardarStorage(res.usuario._id, this.token, res.usuario, this.menu);
         }
         return true;
       })
@@ -105,7 +109,7 @@ export class UsuarioService {
     this._uploadFileService.uploadFile(file, 'usuarios', id)
       .then((res: any) => {
         this.usuario.img = res.usuario.img;
-        this.guardarStorage(id, this.token, this.usuario);
+        this.guardarStorage(id, this.token, this.usuario, this.menu);
       }).catch(res => {
         console.log(res);
       });

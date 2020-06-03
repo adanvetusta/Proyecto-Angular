@@ -51,7 +51,8 @@ app.post('/', (req, res) => {
             mensaje: 'login post correcto',
             usuario: usuarioDB,
             token: token,
-            id: usuarioDB._id
+            id: usuarioDB._id,
+            menu: obtenerMenu(usuario.role)
         });
     });
 });
@@ -113,7 +114,8 @@ app.post('/google', async(req, res) => {
                     mensaje: 'login post correcto',
                     usuario: usuarioDB,
                     token: token,
-                    id: usuarioDB._id
+                    id: usuarioDB._id,
+                    menu: obtenerMenu(usuarioDB.role)
                 });
             }
         } else { // Si el usuario no existe, hay que crearlo
@@ -129,12 +131,67 @@ app.post('/google', async(req, res) => {
                     ok: true,
                     mensaje: 'login post correcto',
                     usuario: usuarioDB,
-                    token: token
+                    token: token,
+                    menu: obtenerMenu(usuarioDB.role)
                         //id: usuarioDB._id
                 });
             });
         }
     });
 });
+
+/**
+ * Regresar menú en función del rol de usuario
+ * @param role
+ */
+function obtenerMenu(role) {
+
+    const menu = [
+        {
+            titulo: 'Principal',
+            icono: 'mdi mdi-gauge',
+            submenu: [
+                {
+                    titulo: 'Dashboard', url: '/dashboard'
+                },
+                {
+                    titulo: 'ProgressBar', url: '/progress'
+                },
+                {
+                    titulo: 'Gráficas', url: '/graficas1'
+                },
+                {
+                    titulo: 'Promesas', url: '/promesas'
+                },
+                {
+                    titulo: 'RxJs', url: '/rxjs'
+                }
+            ]
+        },
+        {
+            titulo: 'Mantenimiento',
+            icono: 'mdi mdi-folder-lock-open',
+            submenu: [
+                {
+                    titulo: 'Hospitales', url: '/hospitales'
+                },
+                {
+                    titulo: 'Medicos', url: '/medicos'
+                }
+            ]
+        }
+    ];
+
+
+    if(role === 'ADMIN_ROLE') {
+        // unshift lo pone al principio, el push al final
+        menu[1].submenu.unshift( {
+            titulo: 'Usuarios', url: '/usuarios'
+        });
+    }
+    return menu;
+}
+
+
 
 module.exports = app;
