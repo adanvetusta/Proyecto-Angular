@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     init_plugins();
     this.googleInit();
-    
     this.email = localStorage.getItem('email') || '';
     this.recuerdame = localStorage.getItem('email') && localStorage.getItem('email').length > 0;
   }
@@ -51,7 +50,9 @@ export class LoginComponent implements OnInit {
       const token = googleUser.getAuthResponse().id_token;
       this._usuarioService.loginGoogle(token).subscribe(
         res => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']).then(() => {
+            window.location.reload();
+          });
         }
       );
     });
@@ -65,7 +66,9 @@ export class LoginComponent implements OnInit {
     const usuario = new Usuario('adi', forma.value.email, forma.value.password);
     this._usuarioService.login(usuario, forma.value.recuerdame).subscribe(
       res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']).then(() => {
+          window.location.reload();
+        });
       }
     );
   }

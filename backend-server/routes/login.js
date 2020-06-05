@@ -52,7 +52,7 @@ app.post('/', (req, res) => {
             usuario: usuarioDB,
             token: token,
             id: usuarioDB._id,
-            menu: obtenerMenu(usuario.role)
+            menu: obtenerMenu(usuarioDB.role)
         });
     });
 });
