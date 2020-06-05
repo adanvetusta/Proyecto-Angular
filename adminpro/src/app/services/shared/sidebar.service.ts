@@ -7,7 +7,9 @@ import { UsuarioService } from '../usuario/usuario.service';
 export class SidebarService {
 
   menu: any [] = [];
-  constructor(public _usuarioService: UsuarioService) {
+  constructor(public _usuarioService: UsuarioService) {}
+
+  cargarMenu() {
     this.menu = this._usuarioService.menu;
   }
 }
