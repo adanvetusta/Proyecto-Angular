@@ -13,6 +13,7 @@ import {HospitalesComponent} from './hospitales/hospitales.component';
 import {MedicosComponent} from './medicos/medicos.component';
 import {MedicoComponent} from './medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AdminGuard } from '../services/service.index';
 
 const pagesRoutes: Routes = [
     //Cualquier ruta vacía hará un redirect to al dashboard
@@ -37,7 +38,10 @@ const pagesRoutes: Routes = [
             },
             // Mantenimientos
             {
-                path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Mantenimiento de usuarios' }
+                path: 'usuarios',
+                component: UsuariosComponent,
+                canActivate: [AdminGuard],
+                data: { titulo: 'Mantenimiento de usuarios' }
             },
             {
                 path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Mantenimiento de hospitales' }
