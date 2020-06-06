@@ -18,4 +18,24 @@ exports.verificaToken = function(req, res, next) {
         req.usuario = decoded.usuario;
         next();
     });
-}
+};
+
+
+/**
+ * Verificar Admin.
+ */
+exports.verificaAdminRole = function(req, res, next) {
+
+
+    var usuario = req.usuario;
+
+    if(usuario.role === 'ADMIN_ROLE') {
+        next();
+    } else {
+        return res.status(401).json({
+            ok: false,
+            mensaje: 'Token incorrecto - No es administrador',
+            errors: { message: 'No es adminsitrador' }
+        });
+    }
+};
