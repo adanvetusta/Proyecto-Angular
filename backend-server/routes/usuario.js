@@ -72,7 +72,7 @@ app.post('/', (req, res) => {
 /**
  * Actualizar usuario (Valdría un patch)
  */
-app.put('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaAdminRole], (req, res) => {
+app.put('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaAdminRoleOMismoUsuario], (req, res) => {
     // Obtenemos el id
     var id = req.params.id;
     var body = req.body;
