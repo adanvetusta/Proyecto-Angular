@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICE } from '../../config/config';
-import { map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { pipe, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UploadFileService } from '../service.index';
 import Swal from 'sweetalert2';
@@ -68,6 +68,11 @@ export class UsuarioService {
       map((res: any) => {
         this.guardarStorage(res.id, res.token, res.usuario, res.menu);
         return true;
+      }),
+      catchError(err => {
+        console.log(err.error.mensaje);
+        Swal.fire('Error en el login', 'Credenciales incorrectas', 'error');
+        return Observable.throw(err);
       })
     );
   }
