@@ -71,7 +71,8 @@ export class UsuarioService {
       }),
       catchError(err => {
         console.log(err.error.mensaje);
-        Swal.fire('Error en el login', 'Credenciales incorrectas', 'error');
+        // Posibilidad de crear un servicio centralizado de manejo de errores
+        Swal.fire('Error en el login',  'Credenciales incorrectas', 'error');
         return Observable.throw(err);
       })
     );
@@ -94,7 +95,11 @@ export class UsuarioService {
           (res: any) => {
             return res.usuario;
           }
-        )
+        ),
+        catchError(err => {
+          Swal.fire(err.error.mensaje, err.error.errors.message, 'error');
+          return Observable.throw(err);
+        })
       );
   }
 
@@ -106,6 +111,10 @@ export class UsuarioService {
           this.guardarStorage(res.usuario._id, this.token, res.usuario, this.menu);
         }
         return true;
+      }),
+      catchError(err => {
+        Swal.fire(err.error.mensaje, err.error.errors.message, 'error');
+        return Observable.throw(err);
       })
     );
   }
