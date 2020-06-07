@@ -14,6 +14,7 @@ import {MedicosComponent} from './medicos/medicos.component';
 import {MedicoComponent} from './medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { AdminGuard } from '../services/service.index';
+import { VerificaTokenGuard } from '../services/service.index';
 
 const pagesRoutes: Routes = [
 
@@ -27,7 +28,7 @@ const pagesRoutes: Routes = [
                 path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' }
             },
             {
-                path: 'dashboard', component: DashboardComponent, data: { titulo: 'dashboard' }
+                path: 'dashboard', component: DashboardComponent, canActivate: [VerificaTokenGuard], data: { titulo: 'dashboard' }
             },
             {
                 path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes del Tema' }
