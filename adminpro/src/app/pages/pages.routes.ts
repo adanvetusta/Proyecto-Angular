@@ -16,11 +16,7 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
 import { AdminGuard } from '../services/service.index';
 
 const pagesRoutes: Routes = [
-    //Cualquier ruta vacía hará un redirect to al dashboard
-    {
-        path: '', component: PagesComponent,
-        canActivate: [LoginGuardGuard],
-        children: [
+
             {
                 path: 'progress', component: ProgressComponent, data: { titulo: 'Progress' }
             },
@@ -64,8 +60,7 @@ const pagesRoutes: Routes = [
             {
                 path: '', redirectTo: '/dashboard', pathMatch: 'full'
             }
-        ]
-    },
+
 ];
 
 export const PAGES_ROUTES = RouterModule.forChild(pagesRoutes);
